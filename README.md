@@ -12,7 +12,7 @@ Please cite this publication when you use the `pSPSS` model file.
 The `pSPSS` describes the interactions of a pseudo-Dirac pair of two Majorana degrees of freedom $N_1$ and $N_2$ generically appearing in low-scale seesaw models protected by a lepton-number like symmetry.<br/>
 In the lepton number conserving (LNC) limit the interactions of the symmetry protected seesaw scenario (SPSS) with the Standard Model are
 
-$$\mathcal L_\text{SPSS}^L = \overline N_i \, i \slashed \partial N_i -  y_{\alpha1} \widetilde H^\dagger \bar \ell_\alpha N_1^c - \overline N_1 m_M^{} N_2^c + \text{H.c.}$$
+$$\mathcal L_\text{SPSS}^L = \overline N_i \, i \cancel \partial N_i -  y_{\alpha1} \widetilde H^\dagger \bar \ell_\alpha N_1^c - \overline N_1 m_M^{} N_2^c + \text{H.c.}$$
 
 The additional lepton number violating (LNV) interactions must be small in order to generate light neutrino masses.<br/>
 Additionally, they introduce a small mass splitting $\Delta m$ between the two heavy neutrino mass eigenstates
