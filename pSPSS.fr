@@ -5,7 +5,7 @@ M$ModelName = "pSPSS";
 
 M$Information = {
   Authors -> {"J. Rosskopp", "J. Hajer"},
-  Version -> "0.4",
+  Version -> "0.5",
   Date -> "01.09.2022",
   Institutions -> {"University of Basel", "University of Lisbon"},
   Emails -> {"j.rosskopp@unibas.ch", "jan.hajer@tecnico.ulisboa.pt"}
@@ -22,7 +22,7 @@ FeynmanGauge = False;
 FR$LoopSwitches = {{Gf, MW}};
 FR$RmDblExt = {ymb -> MB, ymc -> MC, ymdo -> MD, yme -> Me, ymm -> MMU, yms -> MS, ymt -> MT, ymtau -> MTA, ymup -> MU};
 
-(* VEVs *)
+(* Vacuum expectation values *)
 
 M$vevs = {
   {Phi[2], vev},
@@ -75,7 +75,7 @@ IndexStyle[Colour, m];
 IndexStyle[Generation, f];
 IndexStyle[NeutrinoGeneration, h];
 
-(* Interaction orders (as used by mg5) *)
+(* Interaction orders (as used by MG5) *)
 
 M$InteractionOrderHierarchy = {
   {QCD, 1},
@@ -250,17 +250,17 @@ M$Parameters = {
   },
   mvn1 == {
     ParameterType -> Internal,
-    Definitions -> {mvn1 -> yvn1 * vevNP / Sqrt[2]},
+    Definitions -> {mvn1 -> yvn1 * vevNP},
     Description -> "Heavy neutrino Yukawa mass 1"
   },
   mvn2 == {
     ParameterType -> Internal,
-    Definitions -> {mvn2 -> yvn2 * vevNP / Sqrt[2]},
+    Definitions -> {mvn2 -> yvn2 * vevNP},
     Description -> "Heavy neutrino Yukawa mass 2"
   },
   mvn3 == {
     ParameterType -> Internal,
-    Definitions -> {mvn3 -> yvn3 * vevNP / Sqrt[2]},
+    Definitions -> {mvn3 -> yvn3 * vevNP},
     Description -> "Heavy neutrino Yukawa mass 3"
   },
   Uv == {
@@ -305,7 +305,7 @@ M$Parameters = {
   },
   vevNP == { (* Necessary to get the correct interaction order for new Yukawas *)
     ParameterType -> Internal,
-    Value -> 2 * MW * sw / ee,
+    Value -> 2 * MW * sw / ee / Sqrt[2],
     InteractionOrder -> {NP, -1},
     TeX -> v,
     Description -> "Higgs vacuum expectation value for NP interactions"
@@ -374,21 +374,21 @@ M$Parameters = {
   },
   vev == {
     ParameterType -> Internal,
-    Value -> 2 * MW * sw / ee,
+    Value -> 2 * MW * sw / ee / Sqrt[2],
     InteractionOrder -> {QED, -1},
     TeX -> v,
     Description -> "Higgs vacuum expectation value"
   },
   lam == {
     ParameterType -> Internal,
-    Value -> MH^2 / (2 * vev^2),
+    Value -> MH^2 / (4 * vev^2),
     InteractionOrder -> {QED, 2},
     TeX -> \[Lambda],
     Description -> "Higgs quartic coupling"
   },
   muH == {
     ParameterType -> Internal,
-    Value -> Sqrt[vev^2 lam],
+    Value -> Sqrt[2] Sqrt[lam] vev,
     TeX -> \[Mu],
     Description -> "Coefficient of the quadratic piece of the Higgs potential"
   },
@@ -397,9 +397,9 @@ M$Parameters = {
     Indices -> {Index[Generation], Index[Generation]},
     Definitions -> {yl[i_?NumericQ, j_?NumericQ] :> 0 /; (i =!= j)},
     Value -> {
-      yl[1, 1] -> Sqrt[2] yme / vev,
-      yl[2, 2] -> Sqrt[2] ymm / vev,
-      yl[3, 3] -> Sqrt[2] ymtau / vev
+      yl[1, 1] -> yme / vev,
+      yl[2, 2] -> ymm / vev,
+      yl[3, 3] -> ymtau / vev
     },
     InteractionOrder -> {QED, 1},
     ParameterName -> {
@@ -415,9 +415,9 @@ M$Parameters = {
     Indices -> {Index[Generation], Index[Generation]},
     Definitions -> {yu[i_?NumericQ, j_?NumericQ] :> 0 /; (i =!= j)},
     Value -> {
-      yu[1, 1] -> Sqrt[2] ymup / vev,
-      yu[2, 2] -> Sqrt[2] ymc / vev,
-      yu[3, 3] -> Sqrt[2] ymt / vev
+      yu[1, 1] -> ymup / vev,
+      yu[2, 2] -> ymc / vev,
+      yu[3, 3] -> ymt / vev
     },
     InteractionOrder -> {QED, 1},
     ParameterName -> {
@@ -433,9 +433,9 @@ M$Parameters = {
     Indices -> {Index[Generation], Index[Generation]},
     Definitions -> {yd[i_?NumericQ, j_?NumericQ] :> 0  /; (i =!= j)},
     Value -> {
-      yd[1, 1] -> Sqrt[2] ymdo / vev,
-      yd[2, 2] -> Sqrt[2] yms / vev,
-      yd[3, 3] -> Sqrt[2] ymb / vev
+      yd[1, 1] -> ymdo / vev,
+      yd[2, 2] -> yms / vev,
+      yd[3, 3] -> ymb / vev
     },
     InteractionOrder -> {QED, 1},
     ParameterName -> {
@@ -675,7 +675,7 @@ M$ClassesDescription = {
     PropagatorType -> Straight,
     PropagatorArrow -> Forward,
     PDG -> {2, 4, 6},
-    ParticleName -> {"u", "c", "t" },
+    ParticleName -> {"u", "c", "t"},
     AntiParticleName -> {"u~", "c~", "t~"},
     FullName -> {"u-quark", "c-quark", "t-quark"}
   },
@@ -692,7 +692,7 @@ M$ClassesDescription = {
     PropagatorType -> Straight,
     PropagatorArrow -> Forward,
     PDG -> {1, 3, 5},
-    ParticleName -> {"d", "s", "b" },
+    ParticleName -> {"d", "s", "b"},
     AntiParticleName -> {"d~", "s~", "b~"},
     FullName -> {"d-quark", "s-quark", "b-quark"}
   },
@@ -743,19 +743,17 @@ M$ClassesDescription = {
   F[9] == {
     ClassName -> N4L,
     Unphysical -> True,
-    SelfConjugate -> False,
+    SelfConjugate -> True,
     Definitions -> {
-      N4L[sp1_] :> Module[{sp2, hh},
-      ProjM[sp1, sp2] Uv[4, hh] vlL[sp2, hh]]
+      N4L[sp1_] :> Module[{sp2, hh}, ProjM[sp1, sp2] Uv[4, hh] vlL[sp2, hh]]
     }
   },
   F[10] == {
     ClassName -> N5L,
     Unphysical -> True,
-    SelfConjugate -> False,
+    SelfConjugate -> True,
     Definitions -> {
-      N5L[sp1_] :> Module[{sp2, hh},
-      ProjM[sp1, sp2] Uv[5, hh] vlL[sp2, hh]]
+      N5L[sp1_] :> Module[{sp2, hh}, ProjM[sp1, sp2] Uv[5, hh] vlL[sp2, hh]]
     }
   },
   F[11] == {
@@ -875,7 +873,7 @@ M$ClassesDescription = {
     QuantumNumbers -> {Y -> 1/2},
     Definitions -> {
       Phi[1] -> -I GP,
-      Phi[2] -> (vev + H + I G0) / Sqrt[2]
+      Phi[2] -> vev + (H + I G0) / Sqrt[2]
     }
   },
 
@@ -890,7 +888,7 @@ M$ClassesDescription = {
     QuantumNumbers -> {Y -> 1/2},
     Definitions -> {
       PhiNP[1] -> -I GP,
-      PhiNP[2] -> (vevNP + H + I G0) / Sqrt[2]
+      PhiNP[2] -> vevNP + (H + I G0) / Sqrt[2]
     }
   }
 };
@@ -1006,7 +1004,7 @@ LGhost := Block[{LGh1, LGhw, LGhs, LGhphi, mu, generators, gh, ghbar, Vectorize,
   };
   (* phi1 and phi2 are the real degrees of freedom of GP *)
   doublet = Expand[{-(I phi1 + phi2) / Sqrt[2], Phi[2]} /. MR$Definitions /. vev -> 0];
-  doublet0 = {0, vev / Sqrt[2]};
+  doublet0 = {0, vev};
   (* Vectorize transforms a doublet in a vector in the phi-basis, i.e. the basis of real degrees of freedom *)
   Vectorize[{a_, b_}] := Simplify[{
     Sqrt[2] Re[Expand[a]],
