@@ -1,4 +1,4 @@
-= `pSPSS`: Phenomenological symmetry protected seesaw scenario =
+# `pSPSS`: Phenomenological symmetry protected seesaw scenario
 
 The motivation and implementation of the `pSPSS` is discussed in:
 
@@ -7,7 +7,7 @@ Stefan Antusch, Jan Hajer, Johannes Rosskopp '**Simulating lepton number violati
 
 Please cite this publication when you use the `pSPSS` model file.
 
-== Model description ==
+## Model description
 
 The `pSPSS` describes the interactions of a pseudo-Dirac pair of two Majorana degrees of freedom $N_1$ and $N_2$ generically appearing in low-scale seesaw models protected by a lepton-number like symmetry.<br/>
 In the lepton number conserving (LNC) limit the interactions of the symmetry protected seesaw scenario (SPSS) with the Standard Model are
@@ -28,7 +28,7 @@ $$P^{\text{LNC}/\text{LNV}}_\text{osc}(\tau) = (1 \pm \cos\left(\Delta m \tau \r
 where $\lambda$ captures potential damping of the oscillations due to decoherence.<br/>
 Therefore, the details of the seesaw model besides the generated mass splitting can be neglected when simulating pseudo-Dirac heavy neutrinos as long as the neutrino-antineutrino oscillations are taken into account.
 
-== FeynRules implementation ==
+## FeynRules implementation
 
 The FeynRules model file contains in addition to the Standard Model parameter as free parameter the heavy neutrino
 
@@ -37,7 +37,7 @@ The FeynRules model file contains in addition to the Standard Model parameter as
 * mixing parameter $\theta_\alpha$ `theta1`, `theta2`, `theta3`
 * damping parameter $\lambda$ `damping`
 
-== MadGraph patch ==
+## MadGraph patch
 
 In order to generate events with heavy neutrino-antineutrino oscillations it is necessary to patch the `[pSPSS]/bin/internal/common_run_interface.py` file in !MadGraph using
 
