@@ -4,11 +4,11 @@
 M$ModelName = "pSPSS";
 
 M$Information = {
-  Version -> "0.7",
-  Authors -> {"J. Rosskopp", "J. Hajer"},
-  Institutions -> {"University of Basel", "University of Lisbon"},
-  Emails -> {"j.rosskopp@unibas.ch", "jan.hajer@tecnico.ulisboa.pt"},
-  References -> "S. Antusch, J. Hajer, J. Rosskopp, Simulating heavy neutrino-antineutrino oscillations at colliders (2022) (in preparation)",
+  Version -> "1.0",
+  Authors -> {"J. Hajer", "J. Rosskopp"},
+  Institutions -> {"University of Lisbon", "University of Basel"},
+  Emails -> {"jan.hajer@tecnico.ulisboa.pt", "j.rosskopp@unibas.ch"},
+  References -> "S. Antusch, J. Hajer, J. Rosskopp. 'Simulating lepton number violation induced by heavy neutrino-antineutrino oscillations at colliders'. ePrint: ​2210.10738 [hep-ph].",
   URLs -> "https://feynrules.irmp.ucl.ac.be/wiki/pSPSS",
   Date -> "01.10.2022"
 };
