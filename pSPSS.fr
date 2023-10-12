@@ -1,17 +1,22 @@
-(* This is the FeynRules model file for the phenomenological Symmetry Protected Seesaw *)
+(* This is the FeynRules model file for the phenomenological Symmetry Protected Seesaw with light Dirac neutrinos*)
+(* The Dirac type light neutrinos allow to enforce lepton number also in processes involving light neutrinos*)
 (* Based on the SM model file *)
 
 M$ModelName = "pSPSS";
 
 M$Information = {
-  Version -> "1.0",
-  Authors -> {"J. Hajer", "J. Rosskopp"},
+  Version -> "1.1",
+  Authors -> {"S. Antusch", "J. Hajer", "B. Oliveira", "J. Rosskopp"},
   Institutions -> {"University of Lisbon", "University of Basel"},
-  Emails -> {"jan.hajer@tecnico.ulisboa.pt", "j.rosskopp@unibas.ch"},
-  References -> "S. Antusch, J. Hajer, J. Rosskopp. 'Simulating lepton number violation induced by heavy neutrino-antineutrino oscillations at colliders'. ePrint: ​2210.10738 [hep-ph].",
+  Emails -> {"stefan.antusch@unibas.ch", "jan.hajer@tecnico.ulisboa.pt", "b.m.silva.oliveira@tecnico.ulisboa.pt", "johannes.rosskopp@unibas.ch"},
+  References -> {"S. Antusch, J. Hajer, J. Rosskopp, Simulating heavy neutrino-antineutrino oscillations at colliders (2022)", "S. Antusch, J. Hajer, B. Oliveira, Heavy neutrino-antineutrino oscillations at the FCC-ee (2023)"},
   URLs -> "https://feynrules.irmp.ucl.ac.be/wiki/pSPSS",
-  Date -> "01.10.2022"
+  Date -> "01.10.2023"
 };
+
+(* Change log. *)
+(* v1.0: First published version. *)
+(* v1.1: Light neutrinos are now Dirac in order to simulate neutral initial states. *)
 
 (* Choose whether Feynman gauge is desired. If set to False, unitary gauge is assumed. *)
 (* Feynman gauge is especially useful for CalcHEP/CompHEP where the calculation is 10-100 times faster. *)
@@ -651,7 +656,7 @@ M$ClassesDescription = {
     ClassMembers -> {ve, vm, vt},
     Indices -> {Index[Generation]},
     FlavorIndex -> Generation,
-    SelfConjugate -> True,
+    SelfConjugate -> False,
     Mass -> 0,
     Width -> 0,
     PropagatorLabel -> {"v", "ve", "vm", "vt"},
@@ -747,7 +752,7 @@ M$ClassesDescription = {
     Unphysical -> True,
     Indices -> {Index[NeutrinoGeneration]},
     FlavorIndex -> NeutrinoGeneration,
-    SelfConjugate -> True,
+    SelfConjugate -> False,
     Definitions -> {
       nL[sp1_, 1] :> vl[sp1, 1],
       nL[sp1_, 2] :> vl[sp1, 2],
