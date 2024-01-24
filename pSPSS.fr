@@ -5,7 +5,7 @@
 M$ModelName = "pSPSS";
 
 M$Information = {
-  Version -> "1.1",
+  Version -> "1.2",
   Authors -> {"S. Antusch", "J. Hajer", "B. Oliveira", "J. Rosskopp"},
   Institutions -> {"University of Lisbon", "University of Basel"},
   Emails -> {"stefan.antusch@unibas.ch", "jan.hajer@tecnico.ulisboa.pt", "b.m.silva.oliveira@tecnico.ulisboa.pt", "johannes.rosskopp@unibas.ch"},
