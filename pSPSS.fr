@@ -11,12 +11,13 @@ M$Information = {
   Emails -> {"stefan.antusch@unibas.ch", "jan.hajer@tecnico.ulisboa.pt", "b.m.silva.oliveira@tecnico.ulisboa.pt", "johannes.rosskopp@unibas.ch"},
   References -> {"S. Antusch, J. Hajer, J. Rosskopp, Simulating heavy neutrino-antineutrino oscillations at colliders (2022)", "S. Antusch, J. Hajer, B. Oliveira, Heavy neutrino-antineutrino oscillations at the FCC-ee (2023)"},
   URLs -> "https://feynrules.irmp.ucl.ac.be/wiki/pSPSS",
-  Date -> "01.10.2023"
+  Date -> "24.01.2024"
 };
 
 (* Change log. *)
 (* v1.0: First published version. *)
 (* v1.1: Light neutrinos are now Dirac in order to simulate neutral initial states. *)
+(* v1.2: Correct light neutrino mass normalisation. *)
 
 (* Choose whether Feynman gauge is desired. If set to False, unitary gauge is assumed. *)
 (* Feynman gauge is especially useful for CalcHEP/CompHEP where the calculation is 10-100 times faster. *)
@@ -664,6 +665,7 @@ M$ClassesDescription = {
     PropagatorArrow -> Forward,
     PDG -> {12, 14, 16},
     ParticleName -> {"ve", "vm", "vt"},
+    AntiParticleName -> {"ve~", "vm~", "vt~"},
     FullName -> {"Electron-neutrino", "Muon-neutrino", "Tau-neutrino"}
   },
   F[2] == {
@@ -754,9 +756,9 @@ M$ClassesDescription = {
     FlavorIndex -> NeutrinoGeneration,
     SelfConjugate -> False,
     Definitions -> {
-      nL[sp1_, 1] :> vl[sp1, 1],
-      nL[sp1_, 2] :> vl[sp1, 2],
-      nL[sp1_, 3] :> vl[sp1, 3],
+      nL[sp1_, 1] :> vl[sp1, 1]*Sqrt[2],
+      nL[sp1_, 2] :> vl[sp1, 2]*Sqrt[2],
+      nL[sp1_, 3] :> vl[sp1, 3]*Sqrt[2],
       nL[sp1_, 4] :> n4[sp1],
       nL[sp1_, 5] :> n5[sp1]
     }
