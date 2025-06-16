@@ -5,19 +5,20 @@
 M$ModelName = "pSPSS";
 
 M$Information = {
-  Version -> "1.2",
+  Version -> "1.3",
   Authors -> {"S. Antusch", "J. Hajer", "B. Oliveira", "J. Rosskopp"},
   Institutions -> {"University of Lisbon", "University of Basel"},
   Emails -> {"stefan.antusch@unibas.ch", "jan.hajer@tecnico.ulisboa.pt", "b.m.silva.oliveira@tecnico.ulisboa.pt", "johannes.rosskopp@unibas.ch"},
   References -> {"S. Antusch, J. Hajer, J. Rosskopp, Simulating heavy neutrino-antineutrino oscillations at colliders (2022)", "S. Antusch, J. Hajer, B. Oliveira, Heavy neutrino-antineutrino oscillations at the FCC-ee (2023)"},
   URLs -> "https://feynrules.irmp.ucl.ac.be/wiki/pSPSS",
-  Date -> "24.01.2024"
+  Date -> "10.07.2024"
 };
 
 (* Change log. *)
 (* v1.0: First published version. *)
 (* v1.1: Light neutrinos are now Dirac in order to simulate neutral initial states. *)
 (* v1.2: Correct light neutrino mass normalisation. *)
+(* v1.3: Complete CKM. *)
 
 (* Choose whether Feynman gauge is desired. If set to False, unitary gauge is assumed. *)
 (* Feynman gauge is especially useful for CalcHEP/CompHEP where the calculation is 10-100 times faster. *)
@@ -101,7 +102,7 @@ M$Parameters = {
     ParameterType -> External,
     BlockName -> SMINPUTS,
     OrderBlock -> 1,
-    Value -> 127.9,
+    Value -> 127.951,
     InteractionOrder -> {QED, -2},
     Description -> "Inverse of the EW coupling constant at the Z pole"
   },
@@ -109,7 +110,7 @@ M$Parameters = {
     ParameterType -> External,
     BlockName -> SMINPUTS,
     OrderBlock -> 2,
-    Value -> 1.16637*^-5,
+    Value -> 1.1663787*^-5,
     InteractionOrder -> {QED, 2},
     TeX -> Subscript[G, F],
     Description -> "Fermi constant"
@@ -162,7 +163,7 @@ M$Parameters = {
     ParameterType -> External,
     BlockName -> YUKAWA,
     OrderBlock -> 6,
-    Value -> 172,
+    Value -> 172.76,
     Description -> "Top Yukawa mass"
   },
   yme == {
@@ -186,13 +187,37 @@ M$Parameters = {
     Value -> 1.777,
     Description -> "Tau Yukawa mass"
   },
-  cabi == {
+  lamWS == {
     ParameterType -> External,
-    BlockName -> CKMBLOCK,
+    BlockName -> Wolfenstein,
     OrderBlock -> 1,
-    Value -> 0.227736,
-    TeX -> Subscript[\[Theta], c],
-    Description -> "Cabibbo angle"
+    Value -> 0.2253,
+    TeX -> \[Lambda],
+    Description -> "Wolfenstein lambda"
+  },
+  AWS == {
+    ParameterType -> External,
+    BlockName -> Wolfenstein,
+    OrderBlock -> 2,
+    Value -> 0.808,
+    TeX -> A,
+    Description -> "Wolfenstein A"
+  },
+  rhoWS == {
+    ParameterType -> External,
+    BlockName -> Wolfenstein,
+    OrderBlock -> 3,
+    Value -> 0.132,
+    TeX -> \[Rho],
+    Description -> "Wolfenstein rho"
+  },
+  etaWS == {
+    ParameterType -> External,
+    BlockName -> Wolfenstein,
+    OrderBlock -> 4,
+    Value -> 0.341,
+    TeX -> \[Eta],
+    Description -> "Wolfenstein eta"
   },
 
   (* External parameters pSPSS *)
@@ -468,19 +493,19 @@ M$Parameters = {
     TeX -> Superscript[y, d],
     Description -> "Down-type Yukawa couplings"
   },
-  CKM == { (* N. B. : only Cabibbo mixing! *)
+  CKM == {
     ParameterType -> Internal,
     Indices -> {Index[Generation], Index[Generation]},
     Unitary -> True,
     Value -> {
-      CKM[1, 1] -> Cos[cabi],
-      CKM[1, 2] -> Sin[cabi],
-      CKM[1, 3] -> 0,
-      CKM[2, 1] -> -Sin[cabi],
-      CKM[2, 2] -> Cos[cabi],
-      CKM[2, 3] -> 0,
-      CKM[3, 1] -> 0,
-      CKM[3, 2] -> 0,
+      CKM[1, 1] -> 1-lamWS^2/2,
+      CKM[1, 2] -> lamWS,
+      CKM[1, 3] -> AWS*lamWS^3*(rhoWS-I*etaWS),
+      CKM[2, 1] -> -lamWS,
+      CKM[2, 2] -> 1-lamWS^2/2,
+      CKM[2, 3] -> AWS*lamWS^2,
+      CKM[3, 1] -> AWS*lamWS^3*(1-rhoWS-I*etaWS),
+      CKM[3, 2] -> -AWS*lamWS^2,
       CKM[3, 3] -> 1
     },
     TeX -> Superscript[V, CKM],
@@ -691,7 +716,7 @@ M$ClassesDescription = {
     Indices -> {Index[Generation], Index[Colour]},
     FlavorIndex -> Generation,
     SelfConjugate -> False,
-    Mass -> {Mu, {mup, 2.55*^-3}, {mc, 1.27}, {mt, 172}},
+    Mass -> {Mu, {mup, 2.55*^-3}, {mc, 1.27}, {mt, 172.76}},
     Width -> {0, 0, {WT, 1.50833649}},
     QuantumNumbers -> {Q -> 2/3},
     PropagatorLabel -> {"uq", "u", "c", "t"},
