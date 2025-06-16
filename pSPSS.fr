@@ -5,13 +5,13 @@
 M$ModelName = "pSPSS";
 
 M$Information = {
-  Version -> "1.3",
+  Version -> "1.4",
   Authors -> {"S. Antusch", "J. Hajer", "B. Oliveira", "J. Rosskopp"},
   Institutions -> {"University of Lisbon", "University of Basel"},
   Emails -> {"stefan.antusch@unibas.ch", "jan.hajer@tecnico.ulisboa.pt", "b.m.silva.oliveira@tecnico.ulisboa.pt", "johannes.rosskopp@unibas.ch"},
   References -> {"S. Antusch, J. Hajer, J. Rosskopp, Simulating heavy neutrino-antineutrino oscillations at colliders (2022)", "S. Antusch, J. Hajer, B. Oliveira, Heavy neutrino-antineutrino oscillations at the FCC-ee (2023)"},
   URLs -> "https://feynrules.irmp.ucl.ac.be/wiki/pSPSS",
-  Date -> "10.07.2024"
+  Date -> "16.06.2025"
 };
 
 (* Change log. *)
@@ -19,6 +19,7 @@ M$Information = {
 (* v1.1: Light neutrinos are now Dirac in order to simulate neutral initial states. *)
 (* v1.2: Correct light neutrino mass normalisation. *)
 (* v1.3: Complete CKM. *)
+(* v1.4: Replace Majorana mass with HNL mass as external parameter. *)
 
 (* Choose whether Feynman gauge is desired. If set to False, unitary gauge is assumed. *)
 (* Feynman gauge is especially useful for CalcHEP/CompHEP where the calculation is 10-100 times faster. *)
@@ -222,19 +223,19 @@ M$Parameters = {
 
   (* External parameters pSPSS *)
 
-  Mmaj == {
+  mHNL == {
     ParameterType -> External,
     BlockName -> pSPSS,
     Value -> 20,
     TeX -> Subscript[m, M],
-    Description -> "Heavy neutrino Majorana mass"
+    Description -> "HNL mass"
   },
   deltaM == {
     ParameterType -> External,
     BlockName -> pSPSS,
     Value -> 1*^-12,
     TeX -> Subscript[\[Delta], m],
-    Description -> "Heavy neutrino mass splitting"
+    Description -> "HNL mass splitting"
   },
   theta1 == {
     ParameterType -> External,
@@ -272,17 +273,22 @@ M$Parameters = {
   thetasqr == {
     ParameterType -> Internal,
     Definitions -> {thetasqr -> theta1 * Conjugate[theta1] + theta2 * Conjugate[theta2] + theta3 * Conjugate[theta3]},
-    Description -> "Heavy neutrino Yukawa mass 1"
+    Description -> "Squared active sterile mixing"
+  },
+  mM == {
+    ParameterType -> Internal,
+    Definitions -> mHNL / Sqrt[1 + thetasqr],
+    Description -> "Majorana mass"
   },
   mn4 == {
     ParameterType -> Internal,
-    Value -> Mmaj * (1 + thetasqr / 2) - deltaM / 2,
+    Value -> mHNL - deltaM / 2,
     TeX -> Subscript[M, 4],
     Description -> "n4 mass"
   },
   mn5 == {
     ParameterType -> Internal,
-    Value -> Mmaj * (1 + thetasqr / 2) + deltaM / 2,
+    Value -> mHNL + deltaM / 2,
     TeX -> Subscript[M, 5],
     Description -> "n5 mass"
   },
@@ -295,19 +301,19 @@ M$Parameters = {
   },
   yvn1 == {
     ParameterType -> Internal,
-    Value -> Mmaj * theta1 / vevNP,
+    Value -> mM * theta1 / vevNP,
     TeX -> Superscript[y, Subscript[\[Nu], 1]],
     Description -> "Heavy neutrino Yukawa 1"
   },
   yvn2 == {
     ParameterType -> Internal,
-    Value -> Mmaj * theta2 / vevNP,
+    Value -> mM * theta2 / vevNP,
     TeX -> Superscript[y, Subscript[\[Nu], 2]],
     Description -> "Heavy neutrino Yukawa 2"
   },
   yvn3 == {
     ParameterType -> Internal,
-    Value -> Mmaj * theta3 / vevNP,
+    Value -> mM * theta3 / vevNP,
     TeX -> Superscript[y, Subscript[\[Nu], 3]],
     Description -> "Heavy neutrino Yukawa 3"
   },
@@ -1028,7 +1034,7 @@ LYukawa := Block[{sp, ii, jj, cc, ff1, ff2, ff3, yuk, feynmangaugerules},
 preLNP := Block[{sp1, ff1, ii, jj, yuk, feynmangaugerules},
   feynmangaugerules = If[Not[FeynmanGauge], {G0|GP|GPbar -> 0}, {}];
   yuk = - ExpandIndices[
-    Mmaj CC[N1Lbar[sp1]].N2L[sp1] +
+    mM CC[N1Lbar[sp1]].N2L[sp1] +
     yvn[ff1] (CC[N1Lbar[sp1]].LL[sp1, ii, ff1] PhiNPbar[jj] Eps[ii, jj]),
     FlavorExpand -> {SU2D, NeutrinoGeneration}
   ];
