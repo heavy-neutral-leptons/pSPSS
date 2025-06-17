@@ -227,7 +227,7 @@ M$Parameters = {
     ParameterType -> External,
     BlockName -> pSPSS,
     Value -> 20,
-    TeX -> Subscript[m, M],
+    TeX -> Subscript[m, N],
     Description -> "HNL mass"
   },
   deltaM == {
@@ -277,7 +277,8 @@ M$Parameters = {
   },
   mM == {
     ParameterType -> Internal,
-    Definitions -> mHNL / Sqrt[1 + thetasqr],
+    Definitions -> {mM -> mHNL / Sqrt[1 + thetasqr]},
+    TeX -> Subscript[m, M],
     Description -> "Majorana mass"
   },
   mn4 == {
