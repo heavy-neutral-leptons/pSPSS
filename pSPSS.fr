@@ -5,7 +5,7 @@
 M$ModelName = "pSPSS";
 
 M$Information = {
-  Version -> "1.4",
+  Version -> "1.4.2",
   Authors -> {"S. Antusch", "J. Hajer", "B. Oliveira", "J. Rosskopp"},
   Institutions -> {"University of Lisbon", "University of Basel"},
   Emails -> {"stefan.antusch@unibas.ch", "jan.hajer@tecnico.ulisboa.pt", "b.m.silva.oliveira@tecnico.ulisboa.pt", "johannes.rosskopp@unibas.ch"},
@@ -35,8 +35,7 @@ FR$RmDblExt = {ymb -> mb, ymc -> mc, ymdo -> md, yme -> me, ymm -> mmu, yms -> m
 (* Vacuum expectation values *)
 
 M$vevs = {
-  {Phi[2], vev},
-  {PhiNP[2], vevNP}
+  {Phi[2], vev}
 };
 
 (* Gauge groups *)
@@ -122,7 +121,7 @@ M$Parameters = {
     OrderBlock -> 3,
     Value -> 0.1184,
     InteractionOrder -> {QCD, 2},
-    TeX -> Subscript[\[Alpha], s],
+    TeX -> Subscript[α, s],
     Description -> "Strong coupling constant at the Z pole"
   },
   ymdo == {
@@ -193,7 +192,7 @@ M$Parameters = {
     BlockName -> Wolfenstein,
     OrderBlock -> 1,
     Value -> 0.2253,
-    TeX -> \[Lambda],
+    TeX -> λ,
     Description -> "Wolfenstein lambda"
   },
   AWS == {
@@ -209,7 +208,7 @@ M$Parameters = {
     BlockName -> Wolfenstein,
     OrderBlock -> 3,
     Value -> 0.132,
-    TeX -> \[Rho],
+    TeX -> ρ,
     Description -> "Wolfenstein rho"
   },
   etaWS == {
@@ -217,7 +216,7 @@ M$Parameters = {
     BlockName -> Wolfenstein,
     OrderBlock -> 4,
     Value -> 0.341,
-    TeX -> \[Eta],
+    TeX -> η,
     Description -> "Wolfenstein eta"
   },
 
@@ -226,6 +225,7 @@ M$Parameters = {
   mHNL == {
     ParameterType -> External,
     BlockName -> pSPSS,
+    InteractionOrder -> {NP, 0},
     Value -> 20,
     TeX -> Subscript[m, N],
     Description -> "HNL mass"
@@ -233,32 +233,33 @@ M$Parameters = {
   deltaM == {
     ParameterType -> External,
     BlockName -> pSPSS,
+    InteractionOrder -> {NP, 0},
     Value -> 1*^-12,
-    TeX -> Subscript[\[Delta], m],
+    TeX -> Subscript[Δ, m],
     Description -> "HNL mass splitting"
   },
   theta1 == {
     ParameterType -> External,
     BlockName -> pSPSS,
     Value -> 0,
-    InteractionOrder -> {NP, 1},
-    TeX -> Subscript[\[Theta], 1],
+    InteractionOrder -> {NP, 0},
+    TeX -> Subscript[θ, 1],
     Description -> "Active sterile mixing 1"
   },
   theta2 == {
     ParameterType -> External,
     BlockName -> pSPSS,
     Value -> 1*^-4,
-    InteractionOrder -> {NP, 1},
-    TeX -> Subscript[\[Theta], 2],
+    InteractionOrder -> {NP, 0},
+    TeX -> Subscript[θ, 2],
     Description -> "Active sterile mixing 2"
   },
   theta3 == {
     ParameterType -> External,
     BlockName -> pSPSS,
     Value -> 0,
-    InteractionOrder -> {NP, 1},
-    TeX -> Subscript[\[Theta], 3],
+    InteractionOrder -> {NP, 0},
+    TeX -> Subscript[θ, 3],
     Description -> "Active sterile mixing 3"
   },
   damping == {
@@ -272,94 +273,103 @@ M$Parameters = {
 
   thetasqr == {
     ParameterType -> Internal,
-    Definitions -> {thetasqr -> theta1 * Conjugate[theta1] + theta2 * Conjugate[theta2] + theta3 * Conjugate[theta3]},
+    Definitions -> {thetasqr -> theta1 Conjugate[theta1] + theta2 Conjugate[theta2] + theta3 Conjugate[theta3]},
+    InteractionOrder -> {NP, 0},
     Description -> "Squared active sterile mixing"
   },
   mM == {
     ParameterType -> Internal,
     Definitions -> {mM -> mHNL / Sqrt[1 + thetasqr]},
+    InteractionOrder -> {NP, 0},
     TeX -> Subscript[m, M],
     Description -> "Majorana mass"
   },
   mn4 == {
     ParameterType -> Internal,
-    Value -> mHNL - deltaM / 2,
-    TeX -> Subscript[M, 4],
+    Definitions -> {mn4 -> mHNL - deltaM / 2},
+    InteractionOrder -> {NP, 0},
+    TeX -> Subscript[m, 4],
     Description -> "n4 mass"
   },
   mn5 == {
     ParameterType -> Internal,
-    Value -> mHNL + deltaM / 2,
-    TeX -> Subscript[M, 5],
+    Definitions -> {mn5 -> mHNL + deltaM / 2},
+    InteractionOrder -> {NP, 0},
+    TeX -> Subscript[m, 5],
     Description -> "n5 mass"
-  },
-  vevNP == { (* Necessary to get the correct interaction order for new Yukawas *)
-    ParameterType -> Internal,
-    Value -> 2 * mW * sw / ee / Sqrt[2],
-    InteractionOrder -> {NP, -1},
-    TeX -> v,
-    Description -> "Higgs vacuum expectation value for NP interactions"
   },
   yvn1 == {
     ParameterType -> Internal,
-    Value -> mM * theta1 / vevNP,
-    TeX -> Superscript[y, Subscript[\[Nu], 1]],
+    Definitions -> {yvn1 -> mM theta1 / vev},
+    InteractionOrder -> {NP, 0},
+    TeX -> Superscript[y, Subscript[ν, 1]],
     Description -> "Heavy neutrino Yukawa 1"
   },
   yvn2 == {
     ParameterType -> Internal,
-    Value -> mM * theta2 / vevNP,
-    TeX -> Superscript[y, Subscript[\[Nu], 2]],
+    Definitions -> {yvn2 -> mM theta2 / vev},
+    InteractionOrder -> {NP, 0},
+    TeX -> Superscript[y, Subscript[ν, 2]],
     Description -> "Heavy neutrino Yukawa 2"
   },
   yvn3 == {
     ParameterType -> Internal,
-    Value -> mM * theta3 / vevNP,
-    TeX -> Superscript[y, Subscript[\[Nu], 3]],
+    Definitions -> {yvn3 -> mM theta3 / vev},
+    InteractionOrder -> {NP, 0},
+    TeX -> Superscript[y, Subscript[ν, 3]],
     Description -> "Heavy neutrino Yukawa 3"
   },
   yvn == {
     ParameterType -> Internal,
     Indices -> {Index[Generation]},
+    InteractionOrder -> {NP, 0},
     Definitions -> {yvn[1] -> yvn1, yvn[2] -> yvn2, yvn[3] -> yvn3},
     Description -> "Heavy neutrino Yukawas"
+  },
+  gNP == {
+    ParameterType -> Internal,
+    InteractionOrder -> {NP, 1},
+    TeX -> Subscript[g, NP],
+    Value -> 1,
+    Description -> "New physics interactions in the extended PMNS matrix"
   },
   Un == {
     ParameterType -> Internal,
     Indices -> {Index[NeutrinoGeneration], Index[NeutrinoGeneration]},
     ComplexParameter -> True,
     Definitions -> {
-      Un[1, 1] -> 1 - theta1 * Conjugate[theta1] / 2,
-      Un[2, 1] -> - theta1 * Conjugate[theta2] / 2,
-      Un[3, 1] -> - theta1 * Conjugate[theta3] / 2,
+      Un[1, 1] -> 1 - theta1  Conjugate[theta1] / 2,
+      Un[2, 1] -> - theta1  Conjugate[theta2] / 2,
+      Un[3, 1] -> - theta1  Conjugate[theta3] / 2,
       Un[4, 1] -> 0,
-      Un[5, 1] -> - theta1,
-      Un[1, 2] -> - theta2 * Conjugate[theta1] / 2,
-      Un[2, 2] -> 1 - theta2 * Conjugate[theta2] / 2,
-      Un[3, 2] -> -theta2 * Conjugate[theta3] / 2,
+      Un[5, 1] -> - theta1 gNP,
+      Un[1, 2] -> - theta2  Conjugate[theta1] / 2,
+      Un[2, 2] -> 1 - theta2  Conjugate[theta2] / 2,
+      Un[3, 2] -> -theta2  Conjugate[theta3] / 2,
       Un[4, 2] -> 0,
-      Un[5, 2] -> - theta2,
-      Un[1, 3] -> - theta3 * Conjugate[theta1] / 2,
-      Un[2, 3] -> - theta3 * Conjugate[theta2] / 2,
-      Un[3, 3] -> 1 - theta3 * Conjugate[theta3] / 2,
+      Un[5, 2] -> - theta2 gNP,
+      Un[1, 3] -> - theta3  Conjugate[theta1] / 2,
+      Un[2, 3] -> - theta3  Conjugate[theta2] / 2,
+      Un[3, 3] -> 1 - theta3  Conjugate[theta3] / 2,
       Un[4, 3] -> 0,
-      Un[5, 3] -> - theta3,
-      Un[1, 4] -> -I * Conjugate[theta1] / Sqrt[2],
-      Un[2, 4] -> -I * Conjugate[theta2] / Sqrt[2],
-      Un[3, 4] -> -I * Conjugate[theta3] / Sqrt[2],
-      Un[4, 4] -> I / Sqrt[2],
-      Un[5, 4] -> -I * (1 - thetasqr / 2) / Sqrt[2],
-      Un[1, 5] -> Conjugate[theta1] / Sqrt[2],
-      Un[2, 5] -> Conjugate[theta2] / Sqrt[2],
-      Un[3, 5] -> Conjugate[theta3] / Sqrt[2],
-      Un[4, 5] -> 1 / Sqrt[2],
-      Un[5, 5] -> (1 - thetasqr / 2) / Sqrt[2]
+      Un[5, 3] -> - theta3 gNP,
+      Un[1, 4] -> -I  Conjugate[theta1] / Sqrt[2] gNP,
+      Un[2, 4] -> -I  Conjugate[theta2] / Sqrt[2] gNP,
+      Un[3, 4] -> -I  Conjugate[theta3] / Sqrt[2] gNP,
+      Un[4, 4] -> I / Sqrt[2] gNP,
+      Un[5, 4] -> -I  (1 - thetasqr / 2) / Sqrt[2] gNP,
+      Un[1, 5] -> Conjugate[theta1] / Sqrt[2] gNP,
+      Un[2, 5] -> Conjugate[theta2] / Sqrt[2] gNP,
+      Un[3, 5] -> Conjugate[theta3] / Sqrt[2] gNP,
+      Un[4, 5] -> 1 / Sqrt[2] gNP,
+      Un[5, 5] -> (1 - thetasqr / 2) / Sqrt[2] gNP
     },
     Description -> "Neutrino 5x5 mixing matrix"
   },
   UnCL == {
     ParameterType -> Internal,
     Indices -> {Index[Generation], Index[NeutrinoGeneration]},
+    InteractionOrder -> {NP, 1},
     ComplexParameter -> True,
     Definitions -> {UnCL[i_?NumericQ, j_?NumericQ] :> Un[i, j]},
     Description -> "Charged lepton neutrino 3x5 mixing matrix"
@@ -371,13 +381,13 @@ M$Parameters = {
     ParameterType -> Internal,
     Value -> 1/aEWM1,
     InteractionOrder -> {QED, 2},
-    TeX -> Subscript[\[Alpha], EW],
+    TeX -> Subscript[α, EW],
     Description -> "Electroweak coupling contant"
   },
   mW == {
     ParameterType -> Internal,
     Value -> Sqrt[mZ^2 / 2 + Sqrt[mZ^4 / 4 - Pi / Sqrt[2] * aEW / Gf * mZ^2]],
-    TeX -> Subscript[M, W],
+    TeX -> Subscript[m, W],
     Description -> "W mass"
   },
   sw2 == {
@@ -428,22 +438,22 @@ M$Parameters = {
   },
   vev == {
     ParameterType -> Internal,
-    Value -> 2 * mW * sw / ee / Sqrt[2],
+    Value -> 2 mW sw / ee / Sqrt[2],
     InteractionOrder -> {QED, -1},
     TeX -> v,
     Description -> "Higgs vacuum expectation value"
   },
   lam == {
     ParameterType -> Internal,
-    Value -> MH^2 / (4 * vev^2),
+    Value -> (MH / 2 / vev)^2,
     InteractionOrder -> {QED, 2},
-    TeX -> \[Lambda],
+    TeX -> λ,
     Description -> "Higgs quartic coupling"
   },
   muH == {
     ParameterType -> Internal,
     Value -> Sqrt[2] Sqrt[lam] vev,
-    TeX -> \[Mu],
+    TeX -> μ,
     Description -> "Coefficient of the quadratic piece of the Higgs potential"
   },
   yl == {
@@ -505,14 +515,14 @@ M$Parameters = {
     Indices -> {Index[Generation], Index[Generation]},
     Unitary -> True,
     Value -> {
-      CKM[1, 1] -> 1-lamWS^2/2,
+      CKM[1, 1] -> 1 - lamWS^2 / 2,
       CKM[1, 2] -> lamWS,
-      CKM[1, 3] -> AWS*lamWS^3*(rhoWS-I*etaWS),
+      CKM[1, 3] -> AWS lamWS^3 (rhoWS - I etaWS),
       CKM[2, 1] -> -lamWS,
-      CKM[2, 2] -> 1-lamWS^2/2,
-      CKM[2, 3] -> AWS*lamWS^2,
-      CKM[3, 1] -> AWS*lamWS^3*(1-rhoWS-I*etaWS),
-      CKM[3, 2] -> -AWS*lamWS^2,
+      CKM[2, 2] -> 1 - lamWS^2 / 2,
+      CKM[2, 3] -> AWS lamWS^2,
+      CKM[3, 1] -> AWS lamWS^3 (1 - rhoWS - I etaWS),
+      CKM[3, 2] -> -AWS lamWS^2,
       CKM[3, 3] -> 1
     },
     TeX -> Superscript[V, CKM],
@@ -786,11 +796,11 @@ M$ClassesDescription = {
     Unphysical -> True,
     Indices -> {Index[NeutrinoGeneration]},
     FlavorIndex -> NeutrinoGeneration,
-    SelfConjugate -> False,
+    SelfConjugate -> True,
     Definitions -> {
-      nL[sp1_, 1] :> vl[sp1, 1]*Sqrt[2],
-      nL[sp1_, 2] :> vl[sp1, 2]*Sqrt[2],
-      nL[sp1_, 3] :> vl[sp1, 3]*Sqrt[2],
+      nL[sp1_, 1] :> vl[sp1, 1] Sqrt[2],
+      nL[sp1_, 2] :> vl[sp1, 2] Sqrt[2],
+      nL[sp1_, 3] :> vl[sp1, 3] Sqrt[2],
       nL[sp1_, 4] :> n4[sp1],
       nL[sp1_, 5] :> n5[sp1]
     }
@@ -798,7 +808,7 @@ M$ClassesDescription = {
   F[9] == {
     ClassName -> N1L,
     Unphysical -> True,
-    SelfConjugate -> True,
+    SelfConjugate -> False,
     Definitions -> {
       N1L[sp1_] :> Module[{sp2, hh}, ProjM[sp1, sp2] Un[4, hh] nL[sp2, hh]]
     }
@@ -806,7 +816,7 @@ M$ClassesDescription = {
   F[10] == {
     ClassName -> N2L,
     Unphysical -> True,
-    SelfConjugate -> True,
+    SelfConjugate -> False,
     Definitions -> {
       N2L[sp1_] :> Module[{sp2, hh}, ProjM[sp1, sp2] Un[5, hh] nL[sp2, hh]]
     }
@@ -930,22 +940,8 @@ M$ClassesDescription = {
       Phi[1] -> -I GP,
       Phi[2] -> vev + (H + I G0) / Sqrt[2]
     }
-  },
-
-  (* pSPSS Higgs necessary to get the correct interaction order for new Yukawas *)
-
-  S[12] == {
-    ClassName -> PhiNP,
-    Unphysical -> True,
-    Indices -> {Index[SU2D]},
-    FlavorIndex -> SU2D,
-    SelfConjugate -> False,
-    QuantumNumbers -> {Y -> 1/2},
-    Definitions -> {
-      PhiNP[1] -> -I GP,
-      PhiNP[2] -> vevNP + (H + I G0) / Sqrt[2]
-    }
   }
+
 };
 
 (* Gauge Parameters (FeynArts) *)
@@ -990,8 +986,8 @@ LGauge := Block[{mu, nu, ii, aa},
   ]
 ];
 
-preLFermions := Block[{mu},
-  I * ExpandIndices[
+LFermions := LFermions = RemoveHigherOrder @ Block[{mu},
+  I ExpandIndices[
     QLbar.Ga[mu].DC[QL, mu] +
     LLbar.Ga[mu].DC[LL, mu] +
     N1Lbar.Ga[mu].del[N1L, mu] +
@@ -1005,7 +1001,6 @@ preLFermions := Block[{mu},
     CKM[b_, a_] Conjugate[CKM[c_, a_]] -> IndexDelta[b, c]
   }
 ];
-LFermions := LFermions = RemoveHigherOrder[preLFermions];
 
 LHiggs := Block[{ii, mu, feynmangaugerules},
   feynmangaugerules = If[Not[FeynmanGauge], {G0|GP|GPbar -> 0}, {}];
@@ -1032,16 +1027,15 @@ LYukawa := Block[{sp, ii, jj, cc, ff1, ff2, ff3, yuk, feynmangaugerules},
   yuk + HC[yuk] /. feynmangaugerules
 ];
 
-preLNP := Block[{sp1, ff1, ii, jj, yuk, feynmangaugerules},
+LNP := LNP = RemoveHigherOrder @ Block[{sp1, ff1, ii, jj, yuk, feynmangaugerules},
   feynmangaugerules = If[Not[FeynmanGauge], {G0|GP|GPbar -> 0}, {}];
   yuk = - ExpandIndices[
     mM CC[N1Lbar[sp1]].N2L[sp1] +
-    yvn[ff1] (CC[N1Lbar[sp1]].LL[sp1, ii, ff1] PhiNPbar[jj] Eps[ii, jj]),
+    yvn[ff1] (CC[N1Lbar[sp1]].LL[sp1, ii, ff1] Phibar[jj] Eps[ii, jj]),
     FlavorExpand -> {SU2D, NeutrinoGeneration}
   ];
   yuk + HC[yuk] /. feynmangaugerules
 ];
-LNP := LNP = RemoveHigherOrder[preLNP];
 
 LGhost := Block[{LGh1, LGhw, LGhs, LGhphi, mu, generators, gh, ghbar, Vectorize, phi1, phi2, togoldstones, doublet, doublet0},
   (* Pure gauge piece *)
@@ -1077,3 +1071,16 @@ LGhost := Block[{LGh1, LGhw, LGhs, LGhphi, mu, generators, gh, ghbar, Vectorize,
 
 LSM := LGauge + LFermions + LHiggs + LYukawa + LGhost; (* contains sterile neutrino kinetic terms *)
 LpSPSS := LSM + LNP;
+
+
+(*Definitions -> {Un[i_?NumericQ, j_?NumericQ] :> Module[{thetas, discrete, reflection, matrix},
+thetas = {theta1, theta2, theta3};
+discrete = {I, 1} / Sqrt[2];
+reflection = {{-1, 0}, {0, 1}};
+ArrayFlatten @ {{
+IdentityMatrix @ 3 - Conjugate @ thetas ~ KroneckerProduct ~ thetas / 2,
+Conjugate @ thetas ~ KroneckerProduct ~ (reflection.discrete)
+}, {0, {discrete}},
+{-{thetas}, {reflection.discrete} (1 - Conjugate@thetas.thetas/2)}
+}
+][[i, j]]},*)
